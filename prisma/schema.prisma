@@ -12,17 +12,412 @@ datasource db {
   provider = "postgresql"
 }
 
-model User { 
-  id    Int     @id @default(autoincrement()) 
+enum Role {
+  ADMIN
+  STAFF
+  CUSTOMER
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PACKED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  COD
+  CARD
+  UPI
+  NETBANKING
+  WALLET
+}
+
+model User {
+  id String @id @default(cuid())
+
+  name  String
   email String  @unique
-  name  String?
-  posts Post[]
-} 
-model Post { 
-  id        Int     @id @default(autoincrement()) 
-  title     String
-  content   String?
-  published Boolean @default(false) 
-  authorId  Int
-  author    User    @relation(fields: [authorId], references: [id]) 
-} 
+  phone String? @unique
+
+  role Role @default(CUSTOMER)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  addresses     Address[]
+  cart          Cart?
+  wishlist      Wishlist[]
+  orders        Order[]
+  reviews       Review[]
+  emailVerified Boolean    @default(false)
+  image         String?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model Address {
+  id String @id @default(cuid())
+
+  userId String
+
+  user User @relation(fields: [userId], references: [id])
+
+  fullName String
+
+  phone String
+
+  address1 String
+
+  address2 String?
+
+  city String
+
+  state String
+
+  country String
+
+  postalCode String
+
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  orders Order[]
+
+  @@index([userId])
+}
+
+model Category {
+  id String @id @default(cuid())
+
+  name String
+
+  slug String @unique
+
+  parentId String?
+
+  parent Category? @relation("CategoryParent", fields: [parentId], references: [id])
+
+  children Category[] @relation("CategoryParent")
+
+  books Book[]
+}
+
+model Author {
+  id String @id @default(cuid())
+
+  name String
+
+  bio String?
+
+  books Book[]
+}
+
+model Publisher {
+  id String @id @default(cuid())
+
+  name String
+
+  books Book[]
+}
+
+model Book {
+  id String @id @default(cuid())
+
+  title String
+
+  slug String @unique
+
+  isbn String @unique
+
+  description String?
+
+  price Decimal
+
+  discountPrice Decimal?
+
+  language String?
+
+  pages Int?
+
+  publishYear Int?
+
+  categoryId String
+
+  authorId String
+
+  publisherId String
+
+  category Category @relation(fields: [categoryId], references: [id])
+
+  author Author @relation(fields: [authorId], references: [id])
+
+  publisher Publisher @relation(fields: [publisherId], references: [id])
+
+  inventory Inventory?
+
+  images BookImage[]
+
+  cartItems CartItem[]
+
+  wishlists Wishlist[]
+
+  reviews Review[]
+
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  deletedAt DateTime?
+
+  @@index([categoryId])
+  @@index([authorId])
+}
+
+model BookImage {
+  id String @id @default(cuid())
+
+  url String
+
+  bookId String
+
+  book Book @relation(fields: [bookId], references: [id])
+}
+
+model Inventory {
+  id String @id @default(cuid())
+
+  bookId String @unique
+
+  stock Int
+
+  reserved Int @default(0)
+
+  sku String @unique
+
+  book Book @relation(fields: [bookId], references: [id])
+}
+
+model Cart {
+  id String @id @default(cuid())
+
+  userId String @unique
+
+  user User @relation(fields: [userId], references: [id])
+
+  items CartItem[]
+}
+
+model CartItem {
+  id String @id @default(cuid())
+
+  cartId String
+
+  bookId String
+
+  quantity Int
+
+  cart Cart @relation(fields: [cartId], references: [id])
+
+  book Book @relation(fields: [bookId], references: [id])
+
+  @@unique([cartId, bookId])
+}
+
+model Wishlist {
+  id String @id @default(cuid())
+
+  userId String
+
+  bookId String
+
+  user User @relation(fields: [userId], references: [id])
+
+  book Book @relation(fields: [bookId], references: [id])
+
+  @@unique([userId, bookId])
+}
+
+model Coupon {
+  id String @id @default(cuid())
+
+  code String @unique
+
+  discount Decimal
+
+  expiry DateTime
+
+  active Boolean @default(true)
+
+  orders Order[]
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  userId String
+
+  addressId String
+
+  couponId String?
+
+  total Decimal
+
+  discount Decimal
+
+  finalAmount Decimal
+
+  status OrderStatus @default(PENDING)
+
+  user User @relation(fields: [userId], references: [id])
+
+  address Address @relation(fields: [addressId], references: [id])
+
+  coupon Coupon? @relation(fields: [couponId], references: [id])
+
+  items OrderItem[]
+
+  payment Payment?
+
+  shipment Shipment?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id String @id @default(cuid())
+
+  orderId String
+
+  bookId String
+
+  quantity Int
+
+  price Decimal
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  book Book @relation(fields: [bookId], references: [id])
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  orderId String @unique
+
+  transactionId String?
+
+  method PaymentMethod
+
+  status PaymentStatus @default(PENDING)
+
+  amount Decimal
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model Shipment {
+  id String @id @default(cuid())
+
+  orderId String @unique
+
+  courier String?
+
+  trackingNumber String?
+
+  shippedAt DateTime?
+
+  deliveredAt DateTime?
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model Review {
+  id String @id @default(cuid())
+
+  userId String
+
+  bookId String
+
+  rating Int
+
+  comment String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  book Book @relation(fields: [bookId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, bookId])
+}
+
+

@@ -1,125 +1,328 @@
-import Link from 'next/link';
-import { Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+"use client";
 
-export function Footer() {
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  MessageSquare,
+  Phone,
+  Send,
+  MapPin,
+  ChevronUp,
+  Facebook,
+  Twitter,
+  Instagram,
+  Heart,
+  BookOpen,
+} from "lucide-react";
+import Link from "next/link";
+
+export default function Footer() {
   return (
-    <footer className="bg-foreground text-background mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2 font-bold text-lg">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground">
-                📚
-              </div>
-              <span>BookStore</span>
-            </div>
-            <p className="text-sm text-background/80">
-              Discover your next great read with our curated collection of books across all genres.
-            </p>
-          </div>
+    <div className="w-full text-slate-900 pt-16 px-4 md:px-8 mx-auto font-sans">
+      <footer className="w-full text-slate-900 pt-16 px-4 md:px-8 mx-auto font-sans">
+        {/* SECTION 1: Newsletter */}
+       
 
-          {/* Shop */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-semibold">Shop</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/books" className="text-background/70 hover:text-background transition-colors">
-                  All Books
-                </Link>
-              </li>
-              <li>
-                <Link href="/bestsellers" className="text-background/70 hover:text-background transition-colors">
-                  Bestsellers
-                </Link>
-              </li>
-              <li>
-                <Link href="/new-releases" className="text-background/70 hover:text-background transition-colors">
-                  New Releases
-                </Link>
-              </li>
-              <li>
-                <Link href="/deals" className="text-background/70 hover:text-background transition-colors">
-                  Deals
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-semibold">Support</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/faq" className="text-background/70 hover:text-background transition-colors">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-background/70 hover:text-background transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/shipping" className="text-background/70 hover:text-background transition-colors">
-                  Shipping Info
-                </Link>
-              </li>
-              <li>
-                <Link href="/returns" className="text-background/70 hover:text-background transition-colors">
-                  Returns
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-semibold">Newsletter</h3>
-            <p className="text-sm text-background/80">Subscribe to get special offers and updates.</p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 px-3 py-2 bg-background text-foreground rounded text-sm placeholder-muted-foreground outline-none focus:ring-2 focus:ring-primary"
-              />
-              <Button size="sm" variant="secondary">
-                <Mail className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-background/20 pt-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-background/60">
+        {/* SECTION 2: Contact Info Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
+          <div className="border border-slate-200 rounded-xl p-5 flex items-start gap-4">
+            <MessageSquare
+              className="w-5 h-5 text-slate-700 shrink-0 mt-0.5"
+              strokeWidth={1.5}
+            />
             <div>
-              <p>&copy; 2024 BookStore. All rights reserved.</p>
+              <h4 className="font-semibold text-sm mb-1">Customer Support</h4>
+              <p className="text-xs text-slate-500">Mon–Fri, 8am–7pm EST.</p>
             </div>
-            <div className="flex gap-6 justify-center">
-              <Link href="/privacy" className="hover:text-background transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="hover:text-background transition-colors">
-                Terms of Service
-              </Link>
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 flex items-start gap-4">
+            <Phone
+              className="w-5 h-5 text-slate-700 shrink-0 mt-0.5"
+              strokeWidth={1.5}
+            />
+            <div>
+              <h4 className="font-semibold text-sm mb-1">Call Us</h4>
+              <a
+                href="tel:+18559874420"
+                className="text-xs text-slate-500 hover:text-slate-800 underline-offset-2 hover:underline"
+              >
+                +1 855-987-4420 (toll-free)
+              </a>
             </div>
-            <div className="flex gap-4 justify-end">
-              <Link href="#" className="hover:text-background transition-colors">
-                Twitter
-              </Link>
-              <Link href="#" className="hover:text-background transition-colors">
-                Instagram
-              </Link>
-              <Link href="#" className="hover:text-background transition-colors">
-                Facebook
-              </Link>
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 flex items-start gap-4">
+            <Send
+              className="w-5 h-5 text-slate-700 shrink-0 mt-0.5"
+              strokeWidth={1.5}
+            />
+            <div>
+              <h4 className="font-semibold text-sm mb-1">Email Us</h4>
+              <a
+                href="mailto:support@lumiskin.co"
+                className="text-xs text-slate-500 hover:text-slate-800 underline-offset-2 hover:underline"
+              >
+                support@lumiskin.co
+              </a>
+            </div>
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 flex items-start gap-4">
+            <MapPin
+              className="w-5 h-5 text-slate-700 shrink-0 mt-0.5"
+              strokeWidth={1.5}
+            />
+            <div>
+              <h4 className="font-semibold text-sm mb-1">Address</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                125 Bloom Avenue, Suite 210, CA
+              </p>
             </div>
           </div>
         </div>
-      </div>
-    </footer>
+
+        {/* SECTION 3: Main Footer Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+          {/* Left Column - Brand & Config */}
+          <div className="lg:col-span-5 pr-0 lg:pr-12">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-bold text-xl text-black"
+            >
+              <BookOpen className="w-6 h-6 text-primary" />
+              <span className="hidden sm:inline">
+                Book<span className="text-primary">Store.com</span>
+              </span>
+            </Link>
+
+            <p className="text-sm text-slate-500 leading-relaxed mb-8 mt-5">
+              We design books that empower readers to explore new worlds and ideas through thoughtful storytelling, engaging narratives, and beautifully crafted publications.
+            </p>
+
+            <div className="mb-8">
+              <Select defaultValue="english">
+                <SelectTrigger className="w-35 h-9 text-sm">
+                  <SelectValue placeholder="Language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="english">English</SelectItem>
+                  <SelectItem value="spanish">Español</SelectItem>
+                  <SelectItem value="french">Français</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Payment Badges (Placeholder representations) */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="px-2 py-1 text-[10px] font-bold border rounded bg-slate-50">
+                amazon
+              </div>
+              <div className="px-2 py-1 text-[10px] font-bold border rounded bg-slate-50 flex items-center gap-1">
+                 Pay
+              </div>
+              <div className="px-2 py-1 text-[10px] font-bold border rounded bg-slate-50">
+                mastercard
+              </div>
+              <div className="px-2 py-1 text-[10px] font-bold border rounded bg-slate-50 text-blue-800 italic">
+                PayPal
+              </div>
+              <div className="px-2 py-1 text-[10px] font-bold border rounded bg-slate-50 text-blue-900">
+                VISA
+              </div>
+              <div className="px-2 py-1 text-[10px] font-bold border rounded bg-slate-50 text-orange-500">
+                DISCOVER
+              </div>
+            </div>
+          </div>
+
+          {/* Right Columns - Links */}
+          <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
+            {/* Shop */}
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <h4 className="font-semibold text-sm">Shop</h4>
+                <ChevronUp className="w-3 h-3 text-slate-400" />
+              </div>
+              <ul className="space-y-4 text-sm text-slate-500">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    New Launches
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    Best Sellers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    Skin Type Routines
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    Gifts & Sets
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <h4 className="font-semibold text-sm">Support</h4>
+                <ChevronUp className="w-3 h-3 text-slate-400" />
+              </div>
+              <ul className="space-y-4 text-sm text-slate-500">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    FAQs
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    Order Tracking
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                  >
+                    Returns & Exchanges
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* About & Socials */}
+            <div className="flex flex-col justify-between h-full">
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <h4 className="font-semibold text-sm">About</h4>
+                  <ChevronUp className="w-3 h-3 text-slate-400" />
+                </div>
+                <ul className="space-y-4 text-sm text-slate-500">
+                  <li>
+                    <a
+                      href="#"
+                      className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                    >
+                      Our Story
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                    >
+                      Ingredients
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                    >
+                      Sustainability
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="hover:text-slate-900 underline underline-offset-4 decoration-slate-300"
+                    >
+                      Press
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Social Icons positioned at bottom right */}
+              <div className="flex items-center gap-3 mt-8">
+                <a
+                  href="#"
+                  className="w-8 h-8 rounded-full bg-[#18181b] flex items-center justify-center text-white hover:bg-black transition-colors"
+                >
+                  <Facebook className="w-4 h-4 fill-current" />
+                </a>
+                <a
+                  href="#"
+                  className="w-8 h-8 rounded-full bg-[#18181b] flex items-center justify-center text-white hover:bg-black transition-colors"
+                >
+                  <Twitter className="w-4 h-4 fill-current" />
+                </a>
+                <a
+                  href="#"
+                  className="w-8 h-8 rounded-full bg-[#18181b] flex items-center justify-center text-white hover:bg-black transition-colors"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 4: Copyright & Bottom Links */}
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 pb-12 border-t border-slate-100 gap-6">
+          <p className="text-xs text-slate-500 flex items-center gap-1">
+            © 2026 Made with{" "}
+            <Heart className="w-3 h-3 text-pink-500 fill-pink-500 mx-0.5" /> by
+            bookstore.com
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500">
+            <a href="#" className="hover:text-slate-900 transition-colors">
+              Shipping Policy
+            </a>
+            <a href="#" className="hover:text-slate-900 transition-colors">
+              Returns Policy
+            </a>
+            <a href="#" className="hover:text-slate-900 transition-colors">
+              Terms Of Service
+            </a>
+            <a href="#" className="hover:text-slate-900 transition-colors">
+              Privacy Policy
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

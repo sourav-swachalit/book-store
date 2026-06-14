@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.embla__container {
+  transition: transform 0.8s ease-in-out;
+}
+
 :root {
   --background: oklch(0.98 0.001 231);
   --foreground: oklch(0.2 0.01 231);

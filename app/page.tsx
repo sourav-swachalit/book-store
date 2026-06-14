@@ -9,6 +9,7 @@ import { ArrowRight, Sparkles, Zap, Award } from 'lucide-react';
 import { useState } from 'react';
 import { useWishlistStore } from '@/lib/store';
 import { WhyChooseSection } from '@/components/WhyChooseSection';
+import { auth } from '@/lib/auth';
 
 export default function Home() {
   const [wishlist, setWishlist] = useState<string[]>([]);
