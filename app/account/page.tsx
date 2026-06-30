@@ -34,7 +34,6 @@ export default function AccountPage() {
   // console.log("Session from useSession hook:", session);
   
   const { data: session, isPending } = authClient.useSession();
-  console.log("Session from useSession hook:", session);
 
   const router = useRouter();
 

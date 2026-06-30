@@ -5,7 +5,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signupAction(data: any) {
-  console.log("Signup data received:", data);
   try {
     const result = await auth.api.signUpEmail({
       body: {

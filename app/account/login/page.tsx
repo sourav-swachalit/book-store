@@ -43,7 +43,6 @@ export default function CenteredLoginPage() {
   const onSubmit = async (data: any) => {
     const result =await loginAction(data);
     if (result) {
-      console.log("Login successful! Response:", result);
       router.push("/");
       toast.success("Welcome back!");
     }
